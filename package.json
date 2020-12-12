@@ -8,7 +8,7 @@
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
   "scripts": {
-    "prepare": "npx tsc",
+    "prepare": "npx tsc && cp package.json dist/",
     "start": "ts-node --files src/index.ts",
     "lint": "eslint src/** --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix",
