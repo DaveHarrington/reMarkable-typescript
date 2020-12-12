@@ -269,7 +269,7 @@ export default class Remarkable {
     if (!this.token) throw Error('You need to call refreshToken() first');
 
     if (!id) {
-      const id = uuidv4();
+      id = uuidv4();
     }
 
     // We create the zip file to get uploaded
@@ -278,7 +278,7 @@ export default class Remarkable {
     this.zip.file(`${id}.pdf`, file);
     const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
 
-    await this.uploadZip(name, id, zipContent);
+    await this.uploadZip(name, id, zipContent, parent);
 
     this.zip = new JSZip();
     return id;
@@ -293,7 +293,7 @@ export default class Remarkable {
     if (!this.token) throw Error('You need to call refreshToken() first');
 
     if (!id) {
-      const id = uuidv4();
+      id = uuidv4();
     }
 
     // We create the zip file to get uploaded
