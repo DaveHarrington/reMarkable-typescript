@@ -263,8 +263,8 @@ export default class Remarkable {
   public async uploadPDF(
     name: string,
     file: Buffer,
-    id?: string,
     parent?: string,
+    id?: string,
   ) {
     if (!this.token) throw Error('You need to call refreshToken() first');
 
@@ -287,8 +287,8 @@ export default class Remarkable {
   public async uploadEPUB(
     name: string,
     file: Buffer,
-    id?: string,
     parent?: string,
+    id?: string,
   ) {
     if (!this.token) throw Error('You need to call refreshToken() first');
 
