@@ -20,11 +20,14 @@ const gotConfiguration: ExtendOptions = {
 };
 
 const defaultPDFContent = {
+  dummyDocument: false,
   extraMetadata: {},
   fileType: 'pdf',
+  fontName: '',
   lastOpenedPage: 0,
   lineHeight: -1,
-  margins: 180,
+  margins: 100,
+  orientation: 'portrait',
   pageCount: 0,
   textScale: 1,
   transform: {},
@@ -257,33 +260,44 @@ export default class Remarkable {
     return bodyUpdateStatus[0].ID;
   }
 
-  public async uploadPDF(name: string, file: Buffer) {
-    if (!this.token) throw Error('You need to call refreshToken() first');
-
-    const ID = uuidv4();
-
-    // We create the zip file to get uploaded
-    this.zip.file(`${ID}.content`, JSON.stringify(defaultPDFContent));
-    this.zip.file(`${ID}.pagedata`, []);
-    this.zip.file(`${ID}.pdf`, file);
-    const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
-
-    await this.uploadZip(name, ID, zipContent);
-
-    this.zip = new JSZip();
-    return ID;
-  }
-
-  public async uploadEPUB(
+  public async uploadPDF(
     name: string,
-    id: string,
     file: Buffer,
+    id?: string,
     parent?: string,
   ) {
     if (!this.token) throw Error('You need to call refreshToken() first');
 
+    if (!id) {
+      const id = uuidv4();
+    }
+
     // We create the zip file to get uploaded
-    this.zip.file(`${id}.content`, JSON.stringify(defaultEPUBContent));
+    this.zip.file(`${id}.content`, JSON.stringify(defaultPDFContent, null, 4)));
+    this.zip.file(`${id}.pagedata`, []);
+    this.zip.file(`${id}.pdf`, file);
+    const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
+
+    await this.uploadZip(name, id, zipContent);
+
+    this.zip = new JSZip();
+    return id;
+  }
+
+  public async uploadEPUB(
+    name: string,
+    file: Buffer,
+    id?: string,
+    parent?: string,
+  ) {
+    if (!this.token) throw Error('You need to call refreshToken() first');
+
+    if (!id) {
+      const id = uuidv4();
+    }
+
+    // We create the zip file to get uploaded
+    this.zip.file(`${id}.content`, JSON.stringify(defaultEPUBContent, null, 4)));
     this.zip.file(`${id}.pagedata`, []);
     this.zip.file(`${id}.epub`, file);
     const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
