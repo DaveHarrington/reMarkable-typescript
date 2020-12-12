@@ -273,7 +273,7 @@ export default class Remarkable {
     }
 
     // We create the zip file to get uploaded
-    this.zip.file(`${id}.content`, JSON.stringify(defaultPDFContent, null, 4)));
+    this.zip.file(`${id}.content`, JSON.stringify(defaultPDFContent, null, 4));
     this.zip.file(`${id}.pagedata`, []);
     this.zip.file(`${id}.pdf`, file);
     const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
@@ -297,7 +297,7 @@ export default class Remarkable {
     }
 
     // We create the zip file to get uploaded
-    this.zip.file(`${id}.content`, JSON.stringify(defaultEPUBContent, null, 4)));
+    this.zip.file(`${id}.content`, JSON.stringify(defaultEPUBContent, null, 4));
     this.zip.file(`${id}.pagedata`, []);
     this.zip.file(`${id}.epub`, file);
     const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
