@@ -264,6 +264,7 @@ export default class Remarkable {
     name: string,
     file: Buffer,
     parent?: string,
+    content?: object,
     id?: string,
   ) {
     if (!this.token) throw Error('You need to call refreshToken() first');
@@ -271,9 +272,10 @@ export default class Remarkable {
     if (!id) {
       id = uuidv4();
     }
+    var pdfContent = Object.assign({}, defaultPDFContent, content);
 
     // We create the zip file to get uploaded
-    this.zip.file(`${id}.content`, JSON.stringify(defaultPDFContent, null, 4));
+    this.zip.file(`${id}.content`, JSON.stringify(pdfContent, null, 4));
     this.zip.file(`${id}.pagedata`, []);
     this.zip.file(`${id}.pdf`, file);
     const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
@@ -288,6 +290,7 @@ export default class Remarkable {
     name: string,
     file: Buffer,
     parent?: string,
+    content?: object,
     id?: string,
   ) {
     if (!this.token) throw Error('You need to call refreshToken() first');
@@ -295,9 +298,10 @@ export default class Remarkable {
     if (!id) {
       id = uuidv4();
     }
+    var epubContent = Object.assign({}, defaultEPUBContent, content);
 
     // We create the zip file to get uploaded
-    this.zip.file(`${id}.content`, JSON.stringify(defaultEPUBContent, null, 4));
+    this.zip.file(`${id}.content`, JSON.stringify(epubContent, null, 4));
     this.zip.file(`${id}.pagedata`, []);
     this.zip.file(`${id}.epub`, file);
     const zipContent = await this.zip.generateAsync({ type: 'nodebuffer' });
