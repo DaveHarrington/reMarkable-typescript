@@ -70,6 +70,8 @@ const defaultPDFmetadata = {
   VissibleName: 'New Document',
 };
 
+const API_URL = "https://webapp-production-dot-remarkable-production.appspot.com";
+
 type Props = {
   deviceToken?: string;
 };
@@ -105,7 +107,7 @@ export default class Remarkable {
 
   public async refreshToken() {
     if (!this.deviceToken) throw new Error('You must register your reMarkable first');
-    const { body }: { body: string } = await got.post('https://my.remarkable.com/token/json/2/user/new', {
+    const { body }: { body: string } = await got.post(API_URL + '/token/json/2/user/new', {
       headers: {
         Authorization: `Bearer ${this.deviceToken}`,
         'User-Agent': `remarkable-typescript/${pkgVersion}`,
@@ -149,7 +151,7 @@ export default class Remarkable {
       return uuidv5(fingerprint, namespace);
     };
     // Make request
-    return got.post('https://my.remarkable.com/token/json/2/device/new', {
+    return got.post(API_URL + '/token/json/2/device/new', {
       json: { code, deviceDesc, deviceId: deviceId || generateDeviceId() },
     })
       .then(async ({ body }) => {
